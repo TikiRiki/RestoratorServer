@@ -32,7 +32,7 @@ public class DatabaseConfig {
     private Environment env;
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(this.dataSource());
         em.setPackagesToScan(env.getRequiredProperty("db.entity.package"));
@@ -41,7 +41,6 @@ public class DatabaseConfig {
         em.setJpaProperties(this.getHibernateProperties());
 
         return em;
-
     }
 
     @Bean
@@ -66,7 +65,7 @@ public class DatabaseConfig {
     @Bean
     public PlatformTransactionManager platformTransactionManager(){
         JpaTransactionManager manager = new JpaTransactionManager();
-        manager.setEntityManagerFactory(this.entityManagerFactoryBean().getObject());
+        manager.setEntityManagerFactory(this.entityManagerFactory().getObject());
 
         return manager;
     }
